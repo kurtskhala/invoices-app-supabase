@@ -4,9 +4,12 @@ import sun from "@/assets/icon-sun.svg";
 import logo from "@/assets/logo.svg";
 import avatar from "@/assets/image-avatar.jpg";
 import { useState } from "react";
+import { useLogout } from "@/hooks/auth/useLogout";
 
 const Header = () => {
   const [isDark, setIsDark] = useState(false);
+
+  const { mutate: handleLogout } = useLogout();
 
   const handleChangeTheme = () => {
     console.log(isDark);
@@ -31,6 +34,8 @@ const Header = () => {
           {isDark ? <img src={sun} alt="sun" /> : <img src={moon} alt="moon" />}
           <span className="sr-only">Toggle theme</span>
         </Button>
+        <Button onClick={() => handleLogout()}>log out</Button>
+
         <div className="w-8 h-8 rounded-full bg-slate-800 overflow-hidden">
           <img
             src={avatar}
