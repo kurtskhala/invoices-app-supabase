@@ -1,0 +1,23 @@
+{
+  "go-back": "Go Back",
+  "status": "Status",
+  "edit": "Edit",
+  "mark-paid": "Mark as Paid",
+  "updating": "Updating...",
+  "invoice-details": {
+    "invoice-date": "Invoice Date",
+    "payment-due": "Payment Due",
+    "bill-to": "Bill To",
+    "item-name": "Item Name",
+    "quantity": "QTY.",
+    "price": "Price",
+    "total": "Total",
+    "amount-due": "Amount Due"
+  },
+  "delete": {
+    "button": "Delete",
+    "header": "Confirm Deletion",
+    "text": "Are you sure you want to delete invoice #{{createdId}}. This action cannot be undone.",
+    "cancel": "Cancel"
+  }
+}

@@ -11,12 +11,47 @@ import { v4 as uuidv4 } from "uuid";
 import { InvoiceFormProps } from "@/types/auth";
 import { invoiceSchema, type InvoiceFormData } from "@/schemas/invoice.schema";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCreateInvoice } from "@/hooks/invoices/useCreateInvoice";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useCreateInvoice,
+  useUpdateInvoice,
+} from "@/hooks/invoices/useCreateInvoice";
+import { useInvoice } from "@/hooks/invoices/useInvoices";
+import { useTranslation } from "react-i18next";
 
 const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
   const navigate = useNavigate();
   const { mutate: createInvoice, isPending } = useCreateInvoice();
+  const { mutate: updateInvoice } = useUpdateInvoice();
+  const { lang, id } = useParams();
+  const { data: invoice } = useInvoice(id as string);
+  const { t } = useTranslation();
+
+  const defaultValues =
+    action === "Edit"
+      ? {
+          clientName: invoice?.client_name,
+          clientAddress: invoice?.client_address,
+          invoiceDate: invoice?.invoice_date && new Date(invoice.invoice_date),
+          status: invoice.status,
+          paymentTerms: invoice.payment_terms,
+          items: invoice.items,
+        }
+      : {
+          clientName: "",
+          clientAddress: "",
+          invoiceDate: new Date(),
+          status: "draft",
+          paymentTerms: 30,
+          items: [
+            {
+              id: uuidv4(),
+              name: "",
+              quantity: 0,
+              price: 0,
+            },
+          ],
+        };
 
   const {
     control,
@@ -25,35 +60,31 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
     watch,
   } = useForm<InvoiceFormData>({
     resolver: zodResolver(invoiceSchema),
-    defaultValues: {
-      clientName: "",
-      clientAddress: "",
-      invoiceDate: new Date(),
-      status: "draft",
-      paymentTerms: 30,
-      items: [
-        {
-          id: uuidv4(),
-          name: "",
-          quantity: 0,
-          price: 0,
-        },
-      ],
-    },
+    defaultValues,
   });
 
   const onSubmit = async (data: InvoiceFormData) => {
     try {
-      await createInvoice(data, {
-        onSuccess: () => {
-          // You can show a success message here
-          navigate("/invoices"); // Redirect to invoices list
-        },
-        onError: (error) => {
-          // Handle error (show error message)
-          console.error("Error creating invoice:", error);
-        },
-      });
+      action === "Edit"
+        ? await updateInvoice(
+            { ...data, id },
+            {
+              onSuccess: () => {
+                navigate(`/${lang}/invoices`);
+              },
+              onError: (error) => {
+                console.error("Error updating invoice:", error);
+              },
+            }
+          )
+        : await createInvoice(data, {
+            onSuccess: () => {
+              navigate(`/${lang}/invoices`);
+            },
+            onError: (error) => {
+              console.error("Error creating invoice:", error);
+            },
+          });
     } catch (error) {
       console.error("Error in submit handler:", error);
     }
@@ -79,7 +110,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
         <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
           {/* Bill To Section */}
           <div className="space-y-4">
-            <h3 className="text-md text-primary-purple font-bold">Bill To</h3>
+            <h3 className="text-md text-primary-purple font-bold">{t("invoices-page.form.bill_to")}</h3>
             <div className="grid gap-4">
               <Controller
                 name="clientName"
@@ -87,7 +118,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                      Client's Name
+                    {t("invoices-page.form.client-name")}
                     </Label>
                     <Input
                       {...field}
@@ -109,7 +140,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                      Street Address
+                    {t("invoices-page.form.street-address")}
                     </Label>
                     <Input
                       {...field}
@@ -136,7 +167,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div className="flex flex-col">
                     <Label className="text-sm text-muted-foreground pb-1">
-                      Invoice Date
+                    {t("invoices-page.form.invoice-date")}
                     </Label>
                     <DatePicker
                       handleDateChange={(date) => field.onChange(date)}
@@ -156,7 +187,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                      Payment Terms
+                    {t("invoices-page.form.payment-terms")}
                     </Label>
                     <Input
                       {...field}
@@ -179,7 +210,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
 
           {/* Item List */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">Item List</h3>
+            <h3 className="text-lg font-medium">{t("invoices-page.form.item-list")}</h3>
             <div className="space-y-4">
               {fields.map((field, index) => (
                 <div
@@ -192,7 +223,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-4">
                         <Label className="text-sm text-muted-foreground">
-                          Item Name
+                        {t("invoices-page.form.item-name")}
                         </Label>
                         <Input
                           {...field}
@@ -214,7 +245,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-2">
                         <Label className="text-sm text-muted-foreground">
-                          Qty.
+                        {t("invoices-page.form.quantity")}
                         </Label>
                         <Input
                           {...field}
@@ -241,7 +272,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-2">
                         <Label className="text-sm text-muted-foreground">
-                          Price
+                        {t("invoices-page.form.price")}
                         </Label>
                         <Input
                           {...field}
@@ -264,7 +295,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
 
                   <div className="col-span-2">
                     <Label className="text-sm text-muted-foreground">
-                      Total
+                    {t("invoices-page.form.total")}
                     </Label>
                     <Input
                       className="text-foreground font-bold"
@@ -288,7 +319,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
               ))}
             </div>
             <Button variant="outline" className="w-full" onClick={addItem}>
-              + Add New Item
+              + {t("invoices-page.form.add-new-item")}
             </Button>
           </div>
 
@@ -297,37 +328,37 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
             {action === "Edit" ? (
               <>
                 <DrawerClose asChild>
-                  <Button variant="destructive">Cancel</Button>
+                  <Button variant="destructive">{t("invoices-page.form.cancel")}</Button>
                 </DrawerClose>
-                <Button variant="custom">Save Changes</Button>
+                <Button variant="custom">{t("invoices-page.form.update")}</Button>
               </>
             ) : (
               <>
                 <DrawerClose asChild>
-                  <Button variant="destructive">Discard</Button>
+                  <Button variant="destructive">{t("invoices-page.form.discard")}</Button>
                 </DrawerClose>
                 <Button
                   variant="secondary"
                   onClick={() =>
                     handleSubmit((data) =>
-                      createInvoice({ ...data, status: "draft" })
+                      onSubmit({ ...data, status: "draft" })
                     )()
                   }
                   disabled={isPending}
                 >
-                  Save As Draft
+                  {t("invoices-page.form.save-draft")}
                 </Button>
                 <Button
                   type="submit"
                   variant="custom"
                   onClick={() =>
                     handleSubmit((data) =>
-                      createInvoice({ ...data, status: "pending" })
+                      onSubmit({ ...data, status: "pending" })
                     )()
                   }
                   disabled={isPending}
                 >
-                  {isPending ? "Saving..." : "Save & Send"}
+                  {t("invoices-page.form.save-send")}
                 </Button>
               </>
             )}

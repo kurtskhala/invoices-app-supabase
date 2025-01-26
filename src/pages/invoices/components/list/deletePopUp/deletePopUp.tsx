@@ -11,41 +11,59 @@ import {
 } from "@/components/ui/dialog";
 import { DeletePopUpProps } from "@/types/auth";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDeleteInvoice } from "@/hooks/invoices/useInvoices";
+import { useTranslation } from "react-i18next";
 
 const DeletePopUp: FC<DeletePopUpProps> = ({ createdId, id }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const params = useParams();
+  const lang = params.lang as string;
+
+  const { mutate: deleteInvoice, isPending } = useDeleteInvoice();
 
   const handleDelete = async () => {
     try {
-      navigate("/invoices");
+      await deleteInvoice(createdId, {
+        onSuccess: () => {
+          navigate(`/${lang}/invoices`);
+        },
+        onError: (error) => {
+          console.error("Error deleting invoice:", error);
+          alert("Failed to delete invoice. Please try again.");
+        },
+      });
     } catch (error) {
-      console.error("Error deleting invoice:", error);
-      alert("Failed to delete invoice. Please try again.");
+      console.error("Error in delete handler:", error);
     }
   };
 
   return (
     <Dialog>
       <DialogTrigger className="text-[9px] sm:text-[15px] bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2 rounded-[24px] font-bold">
-        Delete
+        {t("invoiceDetile-page.delete.button")}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogTitle>{t("invoiceDetile-page.delete.header")}</DialogTitle>
           <DialogDescription>
-            {`Are you sure you want to delete invoice #${createdId}. This action
-        cannot be undone.`}
+          {t("invoiceDetile-page.delete.text", {createdId})}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="submit" variant="secondary">
-              Cancel
+            {t("invoiceDetile-page.delete.cancel")}
             </Button>
           </DialogClose>
-          <Button type="submit" variant="destructive" onClick={handleDelete}>
-            Delete
+          <Button
+            type="submit"
+            variant="destructive"
+            disabled={isPending}
+            onClick={handleDelete}
+          >
+            {t("invoiceDetile-page.delete.button")}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,28 +1,36 @@
 export interface Invoice {
-  id: string;
-  invoiceNumber: string;
-  date: Date;
-  dueDate: Date;
-  clientName: string;
+  id: number;
+  invoice_number: string;
+  invoice_date: Date;
+  payment_terms: number;
+  client_name_en: string;
+  client_name_ka: string;
+  client_address_en: string;
+  client_address_ka: string;
   items: InvoiceItem[];
   total: number;
-  status: "draft" | "sent" | "paid";
+  status_en: "draft" | "pending" | "paid";
+  status_ka: "სამუშაო" | "მიმდინარე" | "გადახდილი";
 }
 
 interface InvoiceItem {
-  description: string;
+  id: string;
+  name: string;
   quantity: number;
   price: number;
-  total: number;
 }
 
 export interface InvoiceUpdateData {
   id: string;
-  status?: string;
+  status_en?: "draft" | "pending" | "paid";
+  status_ka?: "სამუშაო" | "მიმდინარე" | "გადახდილი";
   clientName?: string;
-  clientEmail?: string;
-  paymentDue?: string;
-  description?: string;
+  client_address_en?: string;
+  client_address_ka?: string;
+  client_name_en: string;
+  client_name_ka: string;
+  invoice_date: Date;
+  payment_terms: number;
   items?: {
     name: string;
     quantity: number;

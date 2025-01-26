@@ -2,10 +2,10 @@ export interface Invoice {
   _id: string;
   id: string;
   created_at: string;
-  invoiceDate: string;
+  invoice_date: string;
   paymentDue: string;
   description: string;
-  paymentTerms: number;
+  payment_terms: number;
   client_name: string;
   clientEmail: string;
   status: "paid" | "pending" | "draft";
@@ -31,8 +31,8 @@ export interface Invoice {
 }
 
 export interface SignUpData {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
 }
@@ -60,6 +60,7 @@ export interface InvoiceListItemProps {
 
 export interface InvoiceFormProps {
   action: string;
+  defaultValues? : Invoice;
 }
 
 export interface CacheItem<T> {
@@ -73,8 +74,8 @@ export interface AuthCredentials {
 }
 
 export interface RegisterCredentials extends AuthCredentials {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface LoginResponse {

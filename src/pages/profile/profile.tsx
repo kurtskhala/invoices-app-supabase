@@ -9,10 +9,19 @@ import { userAtom } from "@/store/auth";
 import { getProfileInfo } from "@/supabase/profile";
 import { useProfileUpdate } from "@/hooks/profile/useProfileUpdate";
 import { ProfileFormData } from "@/types/profile";
+import { useLogout } from "@/hooks/auth/useLogout";
+import { useNavigate, useParams } from "react-router-dom";
+import LeftArrow from "@/assets/icon-arrow-left.svg";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const user = useAtomValue(userAtom);
-  
+  const { t } = useTranslation();
+  const { mutate: handleLogout } = useLogout();
+  const navigate = useNavigate();
+  const params = useParams();
+  const lang = params.lang as string;
+
   const {
     control,
     handleSubmit,
@@ -20,17 +29,23 @@ const Profile = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      first_name_en: "",
+      last_name_en: "",
+      first_name_ka: "",
+      last_name_ka: "",
     },
   });
 
   useEffect(() => {
     if (user) {
       getProfileInfo(user.user.id).then((profileData) => {
+        console.log(profileData);
+        
         reset({
-          firstName: profileData.firstName,
-          lastName: profileData.lastName,
+          first_name_en: profileData.first_name_en,
+          last_name_en: profileData.last_name_en,
+          first_name_ka: profileData.first_name_ka,
+          last_name_ka: profileData.last_name_ka,
         });
       });
     }
@@ -45,17 +60,25 @@ const Profile = () => {
     });
   };
 
+  const handleGoBack = () => {
+    navigate(`/${lang}/invoices`);
+  };
+
   return (
     <Card>
+      <Button variant="link" onClick={handleGoBack} className="pl-0">
+        <img src={LeftArrow} alt="left arrow" />
+        <p className="pt-1">{t("profile-page.go-back")}</p>
+      </Button>
       <CardHeader className="space-y-2 mb-2">
         <CardTitle className="text-center text-2xl dark:text-white">
-          Profile
+          {t("profile-page.profile")}
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex space-x-4">
           <Controller
-            name="firstName"
+            name="first_name_en"
             control={control}
             rules={{
               required: "name-required",
@@ -69,10 +92,10 @@ const Profile = () => {
               return (
                 <>
                   <div>
-                    <Label>First Name</Label>
+                    <Label>{t("profile-page.first_name_en")}</Label>
                     <Input
                       type="text"
-                      name="firstName"
+                      name="first_name_en"
                       placeholder="John"
                       value={value}
                       onChange={onChange}
@@ -81,9 +104,9 @@ const Profile = () => {
                         boxShadow: "none",
                       }}
                     />
-                    {errors.firstName && (
+                    {errors.first_name_en && (
                       <p className="mt-1 text-sm text-red-500">
-                        {errors.firstName.message}
+                        {errors.first_name_en.message}
                       </p>
                     )}
                   </div>
@@ -93,13 +116,13 @@ const Profile = () => {
           />
 
           <Controller
-            name="lastName"
+            name="last_name_en"
             control={control}
             rules={{
-              required: "lastname-required",
+              required: "last_name-required",
               pattern: {
                 value: /^[a-zA-Z\s]+$/,
-                message: "lastname-invalid",
+                message: "last_name-invalid",
               },
             }}
             render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -107,10 +130,10 @@ const Profile = () => {
               return (
                 <>
                   <div>
-                    <Label>Last Name</Label>
+                    <Label>{t("profile-page.last_name_en")}</Label>
                     <Input
                       type="text"
-                      name="lastName"
+                      name="last_name_en"
                       placeholder="Doe"
                       value={value}
                       onChange={onChange}
@@ -119,9 +142,86 @@ const Profile = () => {
                         boxShadow: "none",
                       }}
                     />
-                    {errors.lastName && (
+                    {errors.last_name_en && (
                       <p className="mt-1 text-sm text-red-500">
-                        {errors.lastName.message}
+                        {errors.last_name_en.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              );
+            }}
+          />
+        </div>
+        <div className="flex space-x-4">
+          <Controller
+            name="first_name_ka"
+            control={control}
+            rules={{
+              required: "name-required",
+              pattern: {
+                value: /^[ა-ჰ0-9\s]+$/,
+                message: "name-invalid",
+              },
+            }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              console.log(error);
+              return (
+                <>
+                  <div>
+                    <Label>{t("profile-page.first_name_ka")}</Label>
+                    <Input
+                      type="text"
+                      name="first_name_ka"
+                      placeholder="John"
+                      value={value}
+                      onChange={onChange}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                    {errors.first_name_ka && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.first_name_ka.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              );
+            }}
+          />
+
+          <Controller
+            name="last_name_ka"
+            control={control}
+            rules={{
+              required: "last_name-required",
+              pattern: {
+                value: /^[ა-ჰ0-9\s]+$/,
+                message: "last_name-invalid",
+              },
+            }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              console.log(error);
+              return (
+                <>
+                  <div>
+                    <Label>{t("profile-page.last_name_ka")}</Label>
+                    <Input
+                      type="text"
+                      name="last_name_ka"
+                      placeholder="Doe"
+                      value={value}
+                      onChange={onChange}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                    {errors.last_name_ka && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.last_name_ka.message}
                       </p>
                     )}
                   </div>
@@ -137,7 +237,12 @@ const Profile = () => {
           className="w-full bg-primary-purple hover:bg-dark-purple"
           disabled={isPending}
         >
-          {isPending ? "Upadting..." : "Update Profile"}
+          {isPending
+            ? t("profile-page.updating-button")
+            : t("profile-page.update-button")}
+        </Button>
+        <Button onClick={() => handleLogout()}>
+          {t("profile-page.logout-button")}
         </Button>
       </form>
     </Card>

@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { PROFILE_PATHS } from "./index.enum";
+import AuthGuard from "@/components/route-guards/auth";
 
 const InvoiceView = lazy(() => import("@/pages/profile/profile"));
 
@@ -10,7 +11,9 @@ export const PROFILE_VIEW_ROUTE = [
     path={PROFILE_PATHS.PROFILE}
     element={
       <Suspense fallback={<div>Loading...</div>}>
-        <InvoiceView />
+        <AuthGuard>
+          <InvoiceView />
+        </AuthGuard>
       </Suspense>
     }
   />,

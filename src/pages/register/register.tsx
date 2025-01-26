@@ -5,22 +5,28 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { RegisterCredentials } from "@/types/auth";
 import { useRegister } from "@/hooks/auth/useRegister";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const lang = params.lang as string;
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      first_name_en: "",
+      first_name_ka: "",
+      last_name_en: "",
+      last_name_ka: "",
       email: "",
       password: "",
     },
   });
+  const { t } = useTranslation();
 
   const { mutate: handleRegister, isPending } = useRegister();
 
@@ -32,13 +38,13 @@ const Register = () => {
     <Card>
       <CardHeader className="space-y-2 mb-2">
         <CardTitle className="text-center text-2xl dark:text-white">
-          Register
+          {t("auth-page.register.title-register")}
         </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex space-x-4">
           <Controller
-            name="firstName"
+            name="first_name_en"
             control={control}
             rules={{
               required: "name-required",
@@ -52,10 +58,10 @@ const Register = () => {
               return (
                 <>
                   <div>
-                    <Label>First Name</Label>
+                    <Label>{t("auth-page.register.firstNameEn")}</Label>
                     <Input
                       type="text"
-                      name="firstName"
+                      name="first_name_en"
                       placeholder="John"
                       value={value}
                       onChange={onChange}
@@ -64,9 +70,9 @@ const Register = () => {
                         boxShadow: "none",
                       }}
                     />
-                    {errors.firstName && (
+                    {errors.first_name_en && (
                       <p className="mt-1 text-sm text-red-500">
-                        {errors.firstName.message}
+                        {errors.first_name_en.message}
                       </p>
                     )}
                   </div>
@@ -76,13 +82,13 @@ const Register = () => {
           />
 
           <Controller
-            name="lastName"
+            name="last_name_en"
             control={control}
             rules={{
-              required: "lastname-required",
+              required: "last_name-required",
               pattern: {
                 value: /^[a-zA-Z\s]+$/,
-                message: "lastname-invalid",
+                message: "last_name-invalid",
               },
             }}
             render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -90,10 +96,10 @@ const Register = () => {
               return (
                 <>
                   <div>
-                    <Label>Last Name</Label>
+                    <Label> {t("auth-page.register.lastNameEn")}</Label>
                     <Input
                       type="text"
-                      name="lastName"
+                      name="last_name_en"
                       placeholder="Doe"
                       value={value}
                       onChange={onChange}
@@ -102,9 +108,86 @@ const Register = () => {
                         boxShadow: "none",
                       }}
                     />
-                    {errors.lastName && (
+                    {errors.last_name_en && (
                       <p className="mt-1 text-sm text-red-500">
-                        {errors.lastName.message}
+                        {errors.last_name_en.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              );
+            }}
+          />
+        </div>
+        <div className="flex space-x-4">
+          <Controller
+            name="first_name_ka"
+            control={control}
+            rules={{
+              required: "name-required",
+              pattern: {
+                value: /^[ა-ჰ0-9\s]+$/,
+                message: "name-invalid",
+              },
+            }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              console.log(error);
+              return (
+                <>
+                  <div>
+                    <Label>{t("auth-page.register.firstNameKa")}</Label>
+                    <Input
+                      type="text"
+                      name="first_name_ka"
+                      placeholder="ჯონ"
+                      value={value}
+                      onChange={onChange}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                    {errors.first_name_ka && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.first_name_ka.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              );
+            }}
+          />
+
+          <Controller
+            name="last_name_ka"
+            control={control}
+            rules={{
+              required: "last_name-required",
+              pattern: {
+                value: /^[ა-ჰ0-9\s]+$/,
+                message: "last_name-invalid",
+              },
+            }}
+            render={({ field: { onChange, value }, fieldState: { error } }) => {
+              console.log(error);
+              return (
+                <>
+                  <div>
+                    <Label> {t("auth-page.register.lastNameKa")}</Label>
+                    <Input
+                      type="text"
+                      name="last_name_ka"
+                      placeholder="დოე"
+                      value={value}
+                      onChange={onChange}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                      }}
+                    />
+                    {errors.last_name_ka && (
+                      <p className="mt-1 text-sm text-red-500">
+                        {errors.last_name_ka.message}
                       </p>
                     )}
                   </div>
@@ -128,7 +211,7 @@ const Register = () => {
             console.log(error);
             return (
               <>
-                <Label>Email</Label>
+                <Label>{t("auth-page.register.email")}</Label>
                 <Input
                   type="email"
                   name="email"
@@ -167,11 +250,11 @@ const Register = () => {
             console.log(error);
             return (
               <>
-                <Label>Password</Label>
+                <Label>{t("auth-page.register.password")}</Label>
                 <Input
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder={t("auth-page.register.password")}
                   value={value}
                   onChange={onChange}
                   style={{
@@ -194,13 +277,13 @@ const Register = () => {
           className="w-full bg-primary-purple hover:bg-dark-purple"
           disabled={isPending}
         >
-          {isPending ? "Signing up..." : "Register"}
+          {isPending ? t("auth-page.register.submiting") : t("auth-page.register.submit")}
         </Button>
       </form>
       <div className="flex flex-col items-center pt-5">
-        <p>Do you already have an account?</p>
-        <Button variant="ghost" onClick={() => navigate("/signin")}>
-          Log In
+        <p>{t("auth-page.register.alreadyAccount")}</p>
+        <Button variant="ghost" onClick={() => navigate(`/${lang}/signin`)}>
+          {t("auth-page.register.loginButton")}
         </Button>
       </div>
     </Card>

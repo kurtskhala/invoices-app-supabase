@@ -1,0 +1,34 @@
+{
+  "title": "Invoices",
+  "total-invoices": "There are {{count}} total invoice(s)",
+  "no-invoices": "No invoices",
+  "search-placeholder": "Search by client name",
+  "filter-status": "Filter by status",
+  "clear-filter": "Clear All",
+  "status": {
+    "paid": "Paid",
+    "pending": "Pending",
+    "draft": "Draft"
+  },
+  "new-invoice": "New Invoice",
+  "edit": "Edit",
+  "form": {
+    "bill_to": "Bill to",
+    "client-name": "Client's Name",
+    "street-address": "Street Address",
+    "invoice-date": "Invoice Date",
+    "payment-terms": "Payment Terms",
+    "item-list": "Item List",
+    "item-name": "Item Name",
+    "quantity": "Qty.",
+    "price": "Price",
+    "total": "Total",
+    "add-new-item": "Add New Item",
+    "save-changes": "Save Changes",
+    "discard": "Discard",
+    "cancel": "Cancel",
+    "save-draft": "Save as Draft",
+    "update": "Update",
+    "save-send": "Save & Send"
+  }
+}

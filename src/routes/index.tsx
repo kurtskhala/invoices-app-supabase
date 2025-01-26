@@ -8,12 +8,14 @@ import { PROFILE_VIEW_ROUTE } from "./profile";
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route index element={<Navigate to={`/${AUTH_PATHS.LOGIN}`} />} />
-      <Route path={AUTH_PATHS.DEFAULT} element={<Layout />}>
-        {AUTH_ROUTES}
-        {INVOICR_VIEW_ROUTE}
-        {SINGLE_INVOICE_VIEW_ROUTE}
-        {PROFILE_VIEW_ROUTE}
+      <Route index element={<Navigate to={`ka/${AUTH_PATHS.LOGIN}`} />} />
+      <Route path=":lang">
+        <Route path={AUTH_PATHS.DEFAULT} element={<Layout />}>
+          {AUTH_ROUTES}
+          {INVOICR_VIEW_ROUTE}
+          {SINGLE_INVOICE_VIEW_ROUTE}
+          {PROFILE_VIEW_ROUTE}
+        </Route>
       </Route>
     </Routes>
   );

@@ -1,0 +1,17 @@
+{
+  "go-back": "go back",
+  "profile": "Profile",
+  "first_name": "First Name",
+  "last_name": "Last Name",
+  "first_name_en": "First Name English",
+  "last_name_en": "Last Name English",
+  "first_name_ka": "First Name Georgian",
+  "last_name_ka": "Last Name Georgian",
+  "name-required": "First name is required",
+  "last_name-required": "Last name is required",
+  "name-invalid": "Name must contain only letters",
+  "last_name-invalid": "Last name must contain only letters",
+  "update-button": "Update Profile",
+  "updating-button": "Updating...",
+  "logout-button": "Log Out"
+}

@@ -3,13 +3,17 @@ import { Controller, useForm } from 'react-hook-form';
 import { Label } from '@/components/ui/label';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useLogin } from '@/hooks/auth/useLogin';
 import { AuthCredentials } from '@/types/auth';
+import { useTranslation } from 'react-i18next';
 
 const Login = () => {
-
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const params = useParams();
+  const lang = params.lang as string;
+
   const {
     control,
     handleSubmit,
@@ -31,7 +35,7 @@ const Login = () => {
   return (
     <Card>
       <CardHeader className="space-y-2 mb-2">
-        <CardTitle className="text-center text-2xl">Log In</CardTitle>
+        <CardTitle className="text-center text-2xl">{t("auth-page.register.title-login")}</CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Controller
@@ -48,7 +52,7 @@ const Login = () => {
             console.log(error);
             return (
               <>
-                <Label>Email</Label>
+                <Label>{t("auth-page.register.email")}</Label>
                 <Input
                   type="email"
                   name="email"
@@ -87,11 +91,11 @@ const Login = () => {
             console.log(error);
             return (
               <>
-                <Label>Password</Label>
+                <Label>{t("auth-page.register.password")}</Label>
                 <Input
                   type="password"
                   name="password"
-                  placeholder="password"
+                  placeholder={t("auth-page.register.password")}
                   value={value}
                   onChange={onChange}
                   style={{
@@ -113,13 +117,13 @@ const Login = () => {
           variant="default"
           className="w-full bg-primary-purple hover:bg-dark-purple"
         >
-          {isPending ? 'Logging in...' : 'Log In'}
+          {isPending ? t("auth-page.register.loginingButton") : t("auth-page.register.loginButton")}
         </Button>
       </form>
       <div className="flex flex-col items-center pt-5">
-        <p>Do not have an account yet?</p>
-        <Button variant="ghost" onClick={() => navigate('/signup')}>
-          Sign Up
+        <p>{t("auth-page.register.dontAccount")}</p>
+        <Button variant="ghost" onClick={() => navigate(`/${lang}/signup`)}>
+        {t("auth-page.register.title-register")}
         </Button>
       </div>
     </Card>

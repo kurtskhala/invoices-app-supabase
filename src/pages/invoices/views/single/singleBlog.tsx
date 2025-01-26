@@ -8,17 +8,19 @@ import {
   useInvoice,
   useUpdateInvoiceStatus,
 } from "@/hooks/invoices/useInvoices";
+import { useTranslation } from "react-i18next";
 
 const Invoice = () => {
-  const { id } = useParams();
+  const { lang, id } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { data: invoice, isLoading, error } = useInvoice(id as string);
 
   const updateStatus = useUpdateInvoiceStatus();
 
   const handleGoBack = () => {
-    navigate("/invoices");
+    navigate(`/${lang}/invoices`);
   };
 
   const handleMarkAsPaid = async () => {
@@ -47,11 +49,13 @@ const Invoice = () => {
       <div className="lg:w-[780px] md:w-[560px] flex flex-col gap-y-[24px] items-start">
         <Button variant="link" onClick={handleGoBack} className="pl-0">
           <img src={LeftArrow} alt="left arrow" />
-          <p className="pt-1">Go Back</p>
+          <p className="pt-1">{t("invoiceDetile-page.go-back")}</p>
         </Button>
         <div className="w-full flex flex-wrap gap-y-4 items-center justify-center sm:justify-between p-[12px] sm:py-[32px] sm:px-[24px] rounded-[8px] shadow-[0px_4px_6px_rgba(72,84,159,0.1)]">
           <div className="flex justify-between items-center gap-x-[10px] text-[9px] sm:text-[15px]">
-            <p className="text-muted-foreground">Status</p>
+            <p className="text-muted-foreground">
+              {t("invoiceDetile-page.status")}
+            </p>
             <Badge variant={invoice?.status}>{invoice?.status}</Badge>
           </div>
           <div className="flex justify-between items-center gap-x-[10px]">
@@ -68,7 +72,9 @@ const Invoice = () => {
                 onClick={handleMarkAsPaid}
                 disabled={updateStatus.isPending}
               >
-                {updateStatus.isPending ? "Updating..." : "Mark as Paid"}
+                {updateStatus.isPending
+                  ? t("invoiceDetile-page.updating")
+                  : t("invoiceDetile-page.mark-paid")}
               </Button>
             )}
           </div>
@@ -84,17 +90,23 @@ const Invoice = () => {
           <div className="grid grid-cols-2 gap-8 mb-8">
             <div>
               <div className="mb-8">
-                <p className="text-muted-foreground mb-2">Invoice Date</p>
-                <p className="font-bold">{invoice?.created_at}</p>
+                <p className="text-muted-foreground mb-2">
+                  {t("invoiceDetile-page.invoice-details.invoice-date")}
+                </p>
+                <p className="font-bold">{invoice?.invoice_date}</p>
               </div>
               <div>
-                <p className="text-muted-foreground mb-2">Payment Due</p>
+                <p className="text-muted-foreground mb-2">
+                  {t("invoiceDetile-page.invoice-details.payment-due")}
+                </p>
                 <p className="font-bold">{invoice?.payment_terms}</p>
               </div>
             </div>
 
             <div>
-              <p className="text-muted-foreground mb-2">Bill To</p>
+              <p className="text-muted-foreground mb-2">
+                {t("invoiceDetile-page.invoice-details.bill-to")}
+              </p>
               <p className="font-bold mb-2">{invoice?.client_name}</p>
               <p className="text-muted-foreground">{invoice?.client_address}</p>
             </div>
@@ -103,10 +115,16 @@ const Invoice = () => {
           {/* Invoice Items */}
           <div className="bg-background rounded-lg">
             <div className="grid grid-cols-4 mb-4 text-muted-foreground p-6">
-              <p>Item Name</p>
-              <p className="text-center">QTY.</p>
-              <p className="text-right">Price</p>
-              <p className="text-right">Total</p>
+              <p>{t("invoiceDetile-page.invoice-details.item-name")}</p>
+              <p className="text-center">
+                {t("invoiceDetile-page.invoice-details.quantity")}
+              </p>
+              <p className="text-right">
+                {t("invoiceDetile-page.invoice-details.price")}
+              </p>
+              <p className="text-right">
+                {t("invoiceDetile-page.invoice-details.total")}
+              </p>
             </div>
 
             {invoice?.items.map((item, index) => (
@@ -122,7 +140,7 @@ const Invoice = () => {
 
             {/* Total Amount */}
             <div className="bg-foreground text-background mt-8 p-6 rounded-lg flex justify-between items-center">
-              <p>Amount Due</p>
+              <p>{t("invoiceDetile-page.invoice-details.amount-due")}</p>
               <p className="text-2xl font-bold">
                 £{" "}
                 {invoice?.items.reduce(

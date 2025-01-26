@@ -3,21 +3,27 @@ import { supabase } from "..";
 export const register = ({
   email,
   password,
-  firstName,
-  lastName,
+  first_name_en,
+  last_name_en,
+  first_name_ka,
+  last_name_ka,
 }: {
   email: string;
   password: string;
-  firstName: string;
-  lastName: string;
+  first_name_en: string;
+  last_name_en: string;
+  first_name_ka: string;
+  last_name_ka: string;
 }) => {
   return supabase.auth.signUp({
     email,
     password,
     options: {
       data: {
-        first_name: firstName,
-        last_name: lastName,
+        first_name_en: first_name_en,
+        last_name_en: last_name_en,
+        first_name_ka: first_name_ka,
+        last_name_ka: last_name_ka,
       },
     },
   });
@@ -31,20 +37,9 @@ export const login = async ({
   password: string;
 }) => {
   try {
-    // Log the attempt (don't log actual password in production)
-    console.log('Attempting login for email:', email);
-
-    const response = await supabase.auth.signInWithPassword({ 
-      email, 
-      password 
-    });
-
-    // Log the full response for debugging
-    console.log('Auth response:', {
-      user: response.data.user,
-      error: response.error,
-      status: response.error?.status,
-      message: response.error?.message
+    const response = await supabase.auth.signInWithPassword({
+      email,
+      password,
     });
 
     if (response.error) {
@@ -53,7 +48,7 @@ export const login = async ({
 
     return response;
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     throw error;
   }
 };

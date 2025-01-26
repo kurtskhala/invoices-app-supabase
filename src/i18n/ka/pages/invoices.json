@@ -1,0 +1,34 @@
+{
+  "title": "ინვოისები",
+  "total-invoices": "სულ {{count}} ინვოისი",
+  "no-invoices": "ინვოისები არ არის",
+  "search-placeholder": "ძიება კლიენტის სახელით",
+  "filter-status": "ფილტრი სტატუსით",
+  "clear-filter": "ფილტრის გასუფთავება",
+  "status": {
+    "paid": "paid",
+    "pending": "pending",
+    "draft": "draft"
+  },
+  "new-invoice": "ახალი ინვოისი",
+  "edit": "რედაქტორება",
+  "form": {
+    "bill_to": "მიუტანე",
+    "client-name": "კლიენტის სახელი",
+    "street-address": "ქუჩის მისამართი",
+    "invoice-date": "ინვოისის თარიღი",
+    "payment-terms": "გადახდის პირობები",
+    "item-list": "საქონლის სია",
+    "item-name": "საქონლის დასახელება",
+    "quantity": "რაოდ.",
+    "price": "ფასი",
+    "total": "სულ",
+    "add-new-item": "ახალი პოზიციის დამატება",
+    "save-changes": "ცვლილებების შენახვა",
+    "discard": "გაუქმება",
+    "cancel": "გაუქმება",
+    "save-draft": "სამუშაო ვარიანტის შენახვა",
+    "update": "დააფდეითე",
+    "save-send": "შენახვა და გაგზავნა"
+  }
+}
