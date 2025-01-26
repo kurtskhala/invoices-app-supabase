@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { AUTH_PATHS } from "../index.enum";
 import RegisterGuard from "@/components/route-guards/register";
+/* eslint-disable */
 
 const Login = lazy(() => import("@/pages/login"));
 

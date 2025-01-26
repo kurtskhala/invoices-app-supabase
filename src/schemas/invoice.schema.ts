@@ -8,6 +8,7 @@ export const invoiceItemSchema = z.object({
 });
 
 export const invoiceSchema = z.object({
+  id: z.string().optional(),
   clientName: z.string().min(1, "Client name is required"),
   clientAddress: z.string().min(1, "Street address is required"),
   invoiceDate: z.date(),

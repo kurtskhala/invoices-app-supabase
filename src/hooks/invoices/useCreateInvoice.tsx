@@ -17,7 +17,7 @@ export const useCreateInvoice = () => {
         .insert({
           client_name: data.clientName,
           client_address: data.clientAddress,
-          invoice_date: data.invoiceDate,
+          invoice_date: data.invoiceDate.toISOString(),
           payment_terms: data.paymentTerms,
           items: data.items,
           total: data.items.reduce(
@@ -49,7 +49,7 @@ export const useUpdateInvoice = () => {
         .update({
           client_name: data.clientName,
           client_address: data.clientAddress,
-          invoice_date: data.invoiceDate,
+          invoice_date: data.invoiceDate.toString(),
           payment_terms: data.paymentTerms,
           items: data.items,
           total: data.items.reduce(

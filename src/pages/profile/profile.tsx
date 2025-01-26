@@ -38,14 +38,16 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
+      console.log(user);
+
       getProfileInfo(user.user.id).then((profileData) => {
         console.log(profileData);
 
         reset({
-          first_name_en: profileData.first_name_en,
-          last_name_en: profileData.last_name_en,
-          first_name_ka: profileData.first_name_ka,
-          last_name_ka: profileData.last_name_ka,
+          first_name_en: profileData.first_name_en ?? undefined,
+          last_name_en: profileData.last_name_en ?? undefined,
+          first_name_ka: profileData.first_name_ka ?? undefined,
+          last_name_ka: profileData.last_name_ka ?? undefined,
         });
       });
     }

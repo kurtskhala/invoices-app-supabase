@@ -31,13 +31,13 @@ export interface LoginData {
 
 export interface DeletePopUpProps {
   id?: string;
-  createdId?: string;
+  createdId?: string | number;
 }
 
 export interface EditAddDialogProps {
   action: string;
-  createdId?: string;
-  id?: string;
+  createdId?: string | number;
+  id?: string | number;
 }
 
 export interface InvoiceListItemProps {
@@ -58,6 +58,13 @@ export interface CacheItem<T> {
 export interface AuthCredentials {
   email: string;
   password: string;
+}
+
+export interface RegisterCredentials extends AuthCredentials {
+  first_name_en: string;
+  last_name_en: string;
+  first_name_ka: string;
+  last_name_ka: string;
 }
 
 export interface LoginResponse {

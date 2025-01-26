@@ -19,6 +19,15 @@ import { Input } from "@/components/ui/input";
 import qs from "qs";
 import { useTranslation } from "react-i18next";
 
+interface QueryParams {
+  searchText?: string;
+  statusFilter?: string;
+}
+
+interface FormValues {
+  searchText?: string;
+}
+
 const Invoices = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -26,15 +35,15 @@ const Invoices = () => {
   const params = useParams();
   const lang = params.lang as string;
 
-  const parsedQueryParams = qs.parse(
+  const parsedQueryParams: QueryParams = qs.parse(
     Array.from(searchParams.entries())
       .map(([key, value]) => `${key}=${value}`)
       .join("&"),
-  ) as any;
+  ) as QueryParams;
   const [statusFilter, setStatusFilter] = useState<string>(
     parsedQueryParams.statusFilter || "",
   );
-  const { control, watch } = useForm<any>({
+  const { control, watch } = useForm<FormValues>({
     defaultValues: parsedQueryParams,
   });
 

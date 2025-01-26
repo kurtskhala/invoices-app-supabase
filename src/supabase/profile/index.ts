@@ -1,11 +1,8 @@
 import { supabase } from "..";
-import { fillProfileInfoPayload } from "./index.types";
+import { FillProfileInfoPayload } from "./index.types";
 
-export const fillProfileInfo = (payload: fillProfileInfoPayload) => {
-  return supabase
-    .from("profiles")
-    .upsert(payload as any)
-    .throwOnError();
+export const fillProfileInfo = (payload: FillProfileInfoPayload) => {
+  return supabase.from("profiles").upsert(payload).throwOnError();
 };
 
 export const getProfileInfo = async (id: string) => {
@@ -16,5 +13,5 @@ export const getProfileInfo = async (id: string) => {
     .single();
 
   if (error) throw error;
-  return data as fillProfileInfoPayload;
+  return data as FillProfileInfoPayload;
 };

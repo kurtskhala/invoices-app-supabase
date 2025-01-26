@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json | undefined }
+  | { [key: string]: Json }
   | Json[];
 
 export type Database = {
@@ -17,7 +17,7 @@ export type Database = {
           id: number;
           invoice_date: string | null;
           invoice_number: number | null;
-          items: Json | null;
+          items: Json;
           payment_terms: number | null;
           status: string | null;
           total: number | null;

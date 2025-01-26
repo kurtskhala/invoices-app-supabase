@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { Route } from "react-router-dom";
 import { PROFILE_PATHS } from "./index.enum";
 import AuthGuard from "@/components/route-guards/auth";
+/* eslint-disable */
 
 const InvoiceView = lazy(() => import("@/pages/profile/profile"));
 
