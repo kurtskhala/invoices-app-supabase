@@ -75,7 +75,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
               onError: (error) => {
                 console.error("Error updating invoice:", error);
               },
-            }
+            },
           )
         : await createInvoice(data, {
             onSuccess: () => {
@@ -110,7 +110,9 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
         <form className="space-y-8" onSubmit={handleSubmit(onSubmit)}>
           {/* Bill To Section */}
           <div className="space-y-4">
-            <h3 className="text-md text-primary-purple font-bold">{t("invoices-page.form.bill_to")}</h3>
+            <h3 className="text-md text-primary-purple font-bold">
+              {t("invoices-page.form.bill_to")}
+            </h3>
             <div className="grid gap-4">
               <Controller
                 name="clientName"
@@ -118,7 +120,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                    {t("invoices-page.form.client-name")}
+                      {t("invoices-page.form.client-name")}
                     </Label>
                     <Input
                       {...field}
@@ -140,7 +142,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                    {t("invoices-page.form.street-address")}
+                      {t("invoices-page.form.street-address")}
                     </Label>
                     <Input
                       {...field}
@@ -167,7 +169,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div className="flex flex-col">
                     <Label className="text-sm text-muted-foreground pb-1">
-                    {t("invoices-page.form.invoice-date")}
+                      {t("invoices-page.form.invoice-date")}
                     </Label>
                     <DatePicker
                       handleDateChange={(date) => field.onChange(date)}
@@ -187,7 +189,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                 render={({ field }) => (
                   <div>
                     <Label className="text-sm text-muted-foreground">
-                    {t("invoices-page.form.payment-terms")}
+                      {t("invoices-page.form.payment-terms")}
                     </Label>
                     <Input
                       {...field}
@@ -210,7 +212,9 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
 
           {/* Item List */}
           <div className="space-y-4">
-            <h3 className="text-lg font-medium">{t("invoices-page.form.item-list")}</h3>
+            <h3 className="text-lg font-medium">
+              {t("invoices-page.form.item-list")}
+            </h3>
             <div className="space-y-4">
               {fields.map((field, index) => (
                 <div
@@ -223,7 +227,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-4">
                         <Label className="text-sm text-muted-foreground">
-                        {t("invoices-page.form.item-name")}
+                          {t("invoices-page.form.item-name")}
                         </Label>
                         <Input
                           {...field}
@@ -245,7 +249,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-2">
                         <Label className="text-sm text-muted-foreground">
-                        {t("invoices-page.form.quantity")}
+                          {t("invoices-page.form.quantity")}
                         </Label>
                         <Input
                           {...field}
@@ -272,7 +276,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                     render={({ field }) => (
                       <div className="col-span-2">
                         <Label className="text-sm text-muted-foreground">
-                        {t("invoices-page.form.price")}
+                          {t("invoices-page.form.price")}
                         </Label>
                         <Input
                           {...field}
@@ -295,7 +299,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
 
                   <div className="col-span-2">
                     <Label className="text-sm text-muted-foreground">
-                    {t("invoices-page.form.total")}
+                      {t("invoices-page.form.total")}
                     </Label>
                     <Input
                       className="text-foreground font-bold"
@@ -328,20 +332,26 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
             {action === "Edit" ? (
               <>
                 <DrawerClose asChild>
-                  <Button variant="destructive">{t("invoices-page.form.cancel")}</Button>
+                  <Button variant="destructive">
+                    {t("invoices-page.form.cancel")}
+                  </Button>
                 </DrawerClose>
-                <Button variant="custom">{t("invoices-page.form.update")}</Button>
+                <Button variant="custom">
+                  {t("invoices-page.form.update")}
+                </Button>
               </>
             ) : (
               <>
                 <DrawerClose asChild>
-                  <Button variant="destructive">{t("invoices-page.form.discard")}</Button>
+                  <Button variant="destructive">
+                    {t("invoices-page.form.discard")}
+                  </Button>
                 </DrawerClose>
                 <Button
                   variant="secondary"
                   onClick={() =>
                     handleSubmit((data) =>
-                      onSubmit({ ...data, status: "draft" })
+                      onSubmit({ ...data, status: "draft" }),
                     )()
                   }
                   disabled={isPending}
@@ -353,7 +363,7 @@ const InvoiceForm: FC<InvoiceFormProps> = ({ action }) => {
                   variant="custom"
                   onClick={() =>
                     handleSubmit((data) =>
-                      onSubmit({ ...data, status: "pending" })
+                      onSubmit({ ...data, status: "pending" }),
                     )()
                   }
                   disabled={isPending}

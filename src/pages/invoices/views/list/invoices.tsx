@@ -29,10 +29,10 @@ const Invoices = () => {
   const parsedQueryParams = qs.parse(
     Array.from(searchParams.entries())
       .map(([key, value]) => `${key}=${value}`)
-      .join("&")
+      .join("&"),
   ) as any;
   const [statusFilter, setStatusFilter] = useState<string>(
-    parsedQueryParams.statusFilter || ""
+    parsedQueryParams.statusFilter || "",
   );
   const { control, watch } = useForm<any>({
     defaultValues: parsedQueryParams,
@@ -53,7 +53,7 @@ const Invoices = () => {
       {
         skipNulls: true,
         filter: (_, value) => value || undefined,
-      }
+      },
     );
     setSearchParams(searchParamsString);
   }, [watchedSearchText, setSearchParams, statusFilter]);
@@ -72,7 +72,6 @@ const Invoices = () => {
 
   const count = data?.length;
   console.log(data);
-  
 
   return (
     <div className="w-full flex flex-col min-h-[100%] items-center h-sm:gap-y-[64px]  gap-y-[15px] px-4">

@@ -4,27 +4,27 @@ import { useEffect, useRef, useState } from "react";
 import underscore from "underscore";
 import { Invoice } from "@/types/auth";
 
-
-export const useInvoices = ({ 
-  searchText, 
-  statusFilter 
-}: { 
-  searchText?: string, 
-  statusFilter?: string 
+export const useInvoices = ({
+  searchText,
+  statusFilter,
+}: {
+  searchText?: string;
+  statusFilter?: string;
 }) => {
   const [debouncedSearchText, setDebouncedSearchText] = useState(searchText);
-  const [debouncedStatusFilter, setDebouncedStatusFilter] = useState(statusFilter);
+  const [debouncedStatusFilter, setDebouncedStatusFilter] =
+    useState(statusFilter);
 
   const debouncedSetSearch = useRef(
     underscore.debounce((text: string) => {
       setDebouncedSearchText(text);
-    }, 1000)
+    }, 1000),
   ).current;
 
   const debouncedSetStatus = useRef(
     underscore.debounce((status: string) => {
       setDebouncedStatusFilter(status);
-    }, 300)
+    }, 300),
   ).current;
 
   useEffect(() => {
@@ -55,15 +55,18 @@ export const useInvoices = ({
       query = query.eq("status", debouncedStatusFilter);
     }
 
-    const { data } = await query;
-
-    return data as any;
-  };
+    const { data, error } = await query;
+    if (error) throw error;
+    return (data).map(invoice => ({
+      ...invoice,
+      invoice_date: invoice.invoice_date ? new Date(invoice.invoice_date) : new Date(),
+      items: JSON.parse(invoice.items as string),
+    }));  };
 
   return useQuery<Invoice[], Error>({
     queryKey: ["invoices", debouncedSearchText, debouncedStatusFilter],
     queryFn: fetchInvoices,
-    enabled: (!debouncedSearchText || debouncedSearchText.length >= 3),
+    enabled: !debouncedSearchText || debouncedSearchText.length >= 3,
   });
 };
 
@@ -78,7 +81,7 @@ export const useInvoice = (id: string) => {
         .single();
 
       if (error) throw error;
-      return data as any;
+      return data;
     },
   });
 };

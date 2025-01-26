@@ -9,7 +9,7 @@ function App() {
   const setUser = useSetAtom(userAtom);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {      
+    supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session);
     });
 

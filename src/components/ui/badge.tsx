@@ -17,7 +17,7 @@ const badgeVariants = cva(
     defaultVariants: {
       variant: "paid",
     },
-  }
+  },
 );
 
 export interface BadgeProps
@@ -33,8 +33,8 @@ function Badge({ className, variant, ...props }: BadgeProps) {
           variant === "paid"
             ? "bg-green-500"
             : variant === "pending"
-            ? "bg-orange-500"
-            : "bg-gray-500"
+              ? "bg-orange-500"
+              : "bg-gray-500",
         )}
       />
       {/* Text */}

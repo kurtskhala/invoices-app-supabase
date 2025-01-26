@@ -1,26 +1,13 @@
+import { User } from "@supabase/supabase-js";
+
 export interface Invoice {
-  _id: string;
-  id: string;
+  id: number;
   created_at: string;
-  invoice_date: string;
-  paymentDue: string;
-  description: string;
+  invoice_date: Date;
   payment_terms: number;
   client_name: string;
-  clientEmail: string;
   status: "paid" | "pending" | "draft";
-  senderAddress: {
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-  client_address: {
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
+  client_address: string;
   items: {
     name: string;
     quantity: number;
@@ -60,7 +47,7 @@ export interface InvoiceListItemProps {
 
 export interface InvoiceFormProps {
   action: string;
-  defaultValues? : Invoice;
+  defaultValues?: Invoice;
 }
 
 export interface CacheItem<T> {
@@ -73,16 +60,9 @@ export interface AuthCredentials {
   password: string;
 }
 
-export interface RegisterCredentials extends AuthCredentials {
-  first_name: string;
-  last_name: string;
-}
-
 export interface LoginResponse {
-  user: any;
-  session: any;
+  user: User;
+  session: {
+    access_token: string;
+  };
 }
-
-export type User = {
-  id: string;
-} | null;

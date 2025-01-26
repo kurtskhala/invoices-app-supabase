@@ -29,7 +29,9 @@ const InvoiceListItem: React.FC<InvoiceListItemProps> = ({ item, onClick }) => {
       <p className="text-muted-foreground hidden sm:block">
         Due {formattedDate}
       </p>
-      <p className="text-muted-foreground hidden sm:block">{item.client_name}</p>
+      <p className="text-muted-foreground hidden sm:block">
+        {item.client_name}
+      </p>
       <p className="font-bold hidden sm:block">£ {item.total.toFixed(2)}</p>
       <Badge variant={item.status}>{item.status}</Badge>
       <img src={RightArrow} alt="left arrow" />

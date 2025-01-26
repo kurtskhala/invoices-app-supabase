@@ -1,6 +1,5 @@
 export enum AUTH_PATHS {
-    LOGIN = "signin",
-    REGISTER = "signup",
-    DEFAULT = "",
-  }
-  
+  LOGIN = "signin",
+  REGISTER = "signup",
+  DEFAULT = "",
+}

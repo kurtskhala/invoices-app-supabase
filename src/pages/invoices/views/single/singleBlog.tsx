@@ -145,7 +145,7 @@ const Invoice = () => {
                 £{" "}
                 {invoice?.items.reduce(
                   (acc, item) => acc + item.quantity * item.price,
-                  0
+                  0,
                 )}
               </p>
             </div>

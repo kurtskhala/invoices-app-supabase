@@ -4,105 +4,105 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[]
+  | Json[];
 
 export type Database = {
   public: {
     Tables: {
       invoices: {
         Row: {
-          client_address: string | null
-          client_name: string | null
-          created_at: string
-          id: number
-          invoice_date: string | null
-          invoice_number: number | null
-          items: Json | null
-          payment_terms: number | null
-          status: string | null
-          total: number | null
-          user_id: string | null
-        }
+          client_address: string | null;
+          client_name: string | null;
+          created_at: string;
+          id: number;
+          invoice_date: string | null;
+          invoice_number: number | null;
+          items: Json | null;
+          payment_terms: number | null;
+          status: string | null;
+          total: number | null;
+          user_id: string | null;
+        };
         Insert: {
-          client_address?: string | null
-          client_name?: string | null
-          created_at?: string
-          id?: number
-          invoice_date?: string | null
-          invoice_number?: number | null
-          items?: Json | null
-          payment_terms?: number | null
-          status?: string | null
-          total?: number | null
-          user_id?: string | null
-        }
+          client_address?: string | null;
+          client_name?: string | null;
+          created_at?: string;
+          id?: number;
+          invoice_date?: string | null;
+          invoice_number?: number | null;
+          items?: Json | null;
+          payment_terms?: number | null;
+          status?: string | null;
+          total?: number | null;
+          user_id?: string | null;
+        };
         Update: {
-          client_address?: string | null
-          client_name?: string | null
-          created_at?: string
-          id?: number
-          invoice_date?: string | null
-          invoice_number?: number | null
-          items?: Json | null
-          payment_terms?: number | null
-          status?: string | null
-          total?: number | null
-          user_id?: string | null
-        }
+          client_address?: string | null;
+          client_name?: string | null;
+          created_at?: string;
+          id?: number;
+          invoice_date?: string | null;
+          invoice_number?: number | null;
+          items?: Json | null;
+          payment_terms?: number | null;
+          status?: string | null;
+          total?: number | null;
+          user_id?: string | null;
+        };
         Relationships: [
           {
-            foreignKeyName: "invoices_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
+            foreignKeyName: "invoices_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
           },
-        ]
-      }
+        ];
+      };
       profiles: {
         Row: {
-          first_name_en: string | null
-          first_name_ka: string | null
-          id: string
-          last_name_en: string | null
-          last_name_ka: string | null
-          updated_at: string | null
-        }
+          first_name_en: string | null;
+          first_name_ka: string | null;
+          id: string;
+          last_name_en: string | null;
+          last_name_ka: string | null;
+          updated_at: string | null;
+        };
         Insert: {
-          first_name_en?: string | null
-          first_name_ka?: string | null
-          id: string
-          last_name_en?: string | null
-          last_name_ka?: string | null
-          updated_at?: string | null
-        }
+          first_name_en?: string | null;
+          first_name_ka?: string | null;
+          id: string;
+          last_name_en?: string | null;
+          last_name_ka?: string | null;
+          updated_at?: string | null;
+        };
         Update: {
-          first_name_en?: string | null
-          first_name_ka?: string | null
-          id?: string
-          last_name_en?: string | null
-          last_name_ka?: string | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-    }
+          first_name_en?: string | null;
+          first_name_ka?: string | null;
+          id?: string;
+          last_name_en?: string | null;
+          last_name_ka?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Functions: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     Enums: {
-      [_ in never]: never
-    }
+      [_ in never]: never;
+    };
     CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-}
+      [_ in never]: never;
+    };
+  };
+};
 
-type PublicSchema = Database[Extract<keyof Database, "public">]
+type PublicSchema = Database[Extract<keyof Database, "public">];
 
 export type Tables<
   PublicTableNameOrOptions extends
@@ -115,7 +115,7 @@ export type Tables<
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
       Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
-      Row: infer R
+      Row: infer R;
     }
     ? R
     : never
@@ -123,11 +123,11 @@ export type Tables<
         PublicSchema["Views"])
     ? (PublicSchema["Tables"] &
         PublicSchema["Views"])[PublicTableNameOrOptions] extends {
-        Row: infer R
+        Row: infer R;
       }
       ? R
       : never
-    : never
+    : never;
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
@@ -138,17 +138,17 @@ export type TablesInsert<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Insert: infer I
+      Insert: infer I;
     }
     ? I
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Insert: infer I
+        Insert: infer I;
       }
       ? I
       : never
-    : never
+    : never;
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
@@ -159,17 +159,17 @@ export type TablesUpdate<
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
   ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
-      Update: infer U
+      Update: infer U;
     }
     ? U
     : never
   : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
     ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
-        Update: infer U
+        Update: infer U;
       }
       ? U
       : never
-    : never
+    : never;
 
 export type Enums<
   PublicEnumNameOrOptions extends
@@ -182,14 +182,14 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
-    : never
+    : never;
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
-    schema: keyof Database
+    schema: keyof Database;
   }
     ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
@@ -197,4 +197,4 @@ export type CompositeTypes<
   ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
-    : never
+    : never;

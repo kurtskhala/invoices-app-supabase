@@ -277,7 +277,9 @@ const Register = () => {
           className="w-full bg-primary-purple hover:bg-dark-purple"
           disabled={isPending}
         >
-          {isPending ? t("auth-page.register.submiting") : t("auth-page.register.submit")}
+          {isPending
+            ? t("auth-page.register.submiting")
+            : t("auth-page.register.submit")}
         </Button>
       </form>
       <div className="flex flex-col items-center pt-5">

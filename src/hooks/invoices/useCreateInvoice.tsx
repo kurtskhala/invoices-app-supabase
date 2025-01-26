@@ -22,7 +22,7 @@ export const useCreateInvoice = () => {
           items: data.items,
           total: data.items.reduce(
             (sum, item) => sum + item.quantity * item.price,
-            0
+            0,
           ),
           user_id: userId,
           status: data.status,
@@ -54,7 +54,7 @@ export const useUpdateInvoice = () => {
           items: data.items,
           total: data.items.reduce(
             (sum, item) => sum + item.quantity * item.price,
-            0
+            0,
           ),
           status: data.status,
         })

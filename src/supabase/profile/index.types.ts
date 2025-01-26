@@ -5,4 +5,3 @@ export type fillProfileInfoPayload = {
   first_name_ka: string;
   last_name_ka: string;
 };
-

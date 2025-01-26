@@ -25,7 +25,7 @@ const options = {
 
 const langDetector = new LanguageDetector();
 
-const resources = { 
+const resources = {
   en: {
     translation: {
       "auth-page": authPageEn,

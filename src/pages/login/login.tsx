@@ -1,12 +1,12 @@
-import { Button } from '@/components/ui/button';
-import { Controller, useForm } from 'react-hook-form';
-import { Label } from '@/components/ui/label';
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useLogin } from '@/hooks/auth/useLogin';
-import { AuthCredentials } from '@/types/auth';
-import { useTranslation } from 'react-i18next';
+import { Button } from "@/components/ui/button";
+import { Controller, useForm } from "react-hook-form";
+import { Label } from "@/components/ui/label";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLogin } from "@/hooks/auth/useLogin";
+import { AuthCredentials } from "@/types/auth";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -20,32 +20,33 @@ const Login = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const { mutate: handleLogin, isPending } = useLogin();
-  
-  const onSubmit = (fieldValues: AuthCredentials) => {    
+
+  const onSubmit = (fieldValues: AuthCredentials) => {
     handleLogin(fieldValues);
   };
-
 
   return (
     <Card>
       <CardHeader className="space-y-2 mb-2">
-        <CardTitle className="text-center text-2xl">{t("auth-page.register.title-login")}</CardTitle>
+        <CardTitle className="text-center text-2xl">
+          {t("auth-page.register.title-login")}
+        </CardTitle>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Controller
           name="email"
           control={control}
           rules={{
-            required: 'email-required',
+            required: "email-required",
             pattern: {
               value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-              message: 'email-invalid',
+              message: "email-invalid",
             },
           }}
           render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -60,8 +61,8 @@ const Login = () => {
                   value={value}
                   onChange={onChange}
                   style={{
-                    outline: 'none',
-                    boxShadow: 'none',
+                    outline: "none",
+                    boxShadow: "none",
                   }}
                 />
                 {errors.email && (
@@ -77,14 +78,14 @@ const Login = () => {
           name="password"
           control={control}
           rules={{
-            required: 'password-required',
+            required: "password-required",
             minLength: {
               value: 6,
-              message: 'password-min-length 6',
+              message: "password-min-length 6",
             },
             maxLength: {
               value: 50,
-              message: 'password-max-length 50',
+              message: "password-max-length 50",
             },
           }}
           render={({ field: { onChange, value }, fieldState: { error } }) => {
@@ -99,8 +100,8 @@ const Login = () => {
                   value={value}
                   onChange={onChange}
                   style={{
-                    outline: 'none',
-                    boxShadow: 'none',
+                    outline: "none",
+                    boxShadow: "none",
                   }}
                 />
                 {errors.password && (
@@ -117,13 +118,15 @@ const Login = () => {
           variant="default"
           className="w-full bg-primary-purple hover:bg-dark-purple"
         >
-          {isPending ? t("auth-page.register.loginingButton") : t("auth-page.register.loginButton")}
+          {isPending
+            ? t("auth-page.register.loginingButton")
+            : t("auth-page.register.loginButton")}
         </Button>
       </form>
       <div className="flex flex-col items-center pt-5">
         <p>{t("auth-page.register.dontAccount")}</p>
         <Button variant="ghost" onClick={() => navigate(`/${lang}/signup`)}>
-        {t("auth-page.register.title-register")}
+          {t("auth-page.register.title-register")}
         </Button>
       </div>
     </Card>

@@ -1,1 +1,1 @@
-export {default} from "./editAddInvoice";
+export { default } from "./editAddInvoice";

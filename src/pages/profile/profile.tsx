@@ -40,7 +40,7 @@ const Profile = () => {
     if (user) {
       getProfileInfo(user.user.id).then((profileData) => {
         console.log(profileData);
-        
+
         reset({
           first_name_en: profileData.first_name_en,
           last_name_en: profileData.last_name_en,

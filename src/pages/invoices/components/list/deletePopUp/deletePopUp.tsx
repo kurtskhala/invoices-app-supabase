@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteInvoice } from "@/hooks/invoices/useInvoices";
 import { useTranslation } from "react-i18next";
 
-const DeletePopUp: FC<DeletePopUpProps> = ({ createdId, id }) => {
+const DeletePopUp: FC<DeletePopUpProps> = ({ createdId }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const params = useParams();
@@ -25,15 +25,17 @@ const DeletePopUp: FC<DeletePopUpProps> = ({ createdId, id }) => {
 
   const handleDelete = async () => {
     try {
-      await deleteInvoice(createdId, {
-        onSuccess: () => {
-          navigate(`/${lang}/invoices`);
-        },
-        onError: (error) => {
-          console.error("Error deleting invoice:", error);
-          alert("Failed to delete invoice. Please try again.");
-        },
-      });
+      if (createdId) {
+        await deleteInvoice(createdId, {
+          onSuccess: () => {
+            navigate(`/${lang}/invoices`);
+          },
+          onError: (error) => {
+            console.error("Error deleting invoice:", error);
+            alert("Failed to delete invoice. Please try again.");
+          },
+        });
+      }
     } catch (error) {
       console.error("Error in delete handler:", error);
     }
@@ -48,13 +50,13 @@ const DeletePopUp: FC<DeletePopUpProps> = ({ createdId, id }) => {
         <DialogHeader>
           <DialogTitle>{t("invoiceDetile-page.delete.header")}</DialogTitle>
           <DialogDescription>
-          {t("invoiceDetile-page.delete.text", {createdId})}
+            {t("invoiceDetile-page.delete.text", { createdId })}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose asChild>
             <Button type="submit" variant="secondary">
-            {t("invoiceDetile-page.delete.cancel")}
+              {t("invoiceDetile-page.delete.cancel")}
             </Button>
           </DialogClose>
           <Button
